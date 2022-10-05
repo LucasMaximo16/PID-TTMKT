@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Funcionario {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
 	private String nome;
@@ -31,7 +31,6 @@ public class Funcionario {
 		super();
 	}
 
-
 	public Funcionario(String nome, String sobrenome, int cpf, int telefone, String email, String cargo,
 			LocalDate localDate) {
 		super();
@@ -45,7 +44,7 @@ public class Funcionario {
 	}
 
 
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 

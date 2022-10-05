@@ -2,8 +2,11 @@ package br.com.ttmkt.resourse;
 
 import java.net.URI;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,16 +23,23 @@ public class FuncionarioController   {
 	@Autowired
 	private FuncionarioService funcionarioService;
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@RequestBody Funcionario funcionario){
 		
 		
-		funcionario = funcionarioService.cadastrar(null, null, 0, 0, null, null, null);
+		funcionario = funcionarioService.cadastrar(funcionario.getNome(), funcionario.getSobrenome(), funcionario.getCpf(), funcionario.getTelefone(), funcionario.getEmail(), funcionario.getCargo(), funcionario.getLocalDate());
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(funcionario.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();
 		
+	}
+	
+	@RequestMapping(value = "/{id}",method = RequestMethod.GET)
+	public ResponseEntity<Funcionario> buscarFuncionario(@PathVariable("id")Integer id){
+		Funcionario buscarFuncionarioPorId = funcionarioService.getBuscarFuncionarioPorId(id);
+		
+		return ResponseEntity.ok().body(buscarFuncionarioPorId);
 	}
 }

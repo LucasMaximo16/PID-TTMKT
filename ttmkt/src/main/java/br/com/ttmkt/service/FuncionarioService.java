@@ -1,6 +1,7 @@
 package br.com.ttmkt.service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,24 @@ public class FuncionarioService {
 		
 		Funcionario funcionario = new Funcionario();
 		
-		data = LocalDate.now();
-		funcionario.setId(null);
+		funcionario.setLocalDate(data);
 		funcionario.setNome(nome);
+		funcionario.setSobrenome(sobrenome);
+		funcionario.setCpf(cpf);
 		funcionario.setCargo(cargo);
 		funcionario.setEmail(email);
 		funcionario.setTelefone(telefone);
 		
-		
 		return funRepository.save(funcionario);
+	}
+
+	public Funcionario getBuscarFuncionarioPorId(Integer id) {
+		
+		 Optional<Funcionario> optional = funRepository.findById(id);
+		 if(!optional.isPresent()) {
+			 return null;
+		 }
+		 
+		 return optional.get();
 	}
 }
